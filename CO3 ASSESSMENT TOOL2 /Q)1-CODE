@@ -1,0 +1,37 @@
+import random
+import time
+
+# Quick Sort Function
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+
+    pivot = arr[len(arr) // 2]
+
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+
+    return quick_sort(left) + middle + quick_sort(right)
+
+
+# Simulating Vehicle Speeds in Traffic Monitoring
+sizes = [1000, 5000, 10000, 20000]
+
+print("Real-Time Traffic Monitoring System Using Quick Sort")
+print("-" * 60)
+
+for size in sizes:
+    vehicle_speeds = [random.randint(20, 120) for _ in range(size)]
+
+    start = time.perf_counter()
+
+    sorted_speeds = quick_sort(vehicle_speeds)
+
+    end = time.perf_counter()
+
+    execution_time = end - start
+
+    print(f"Number of Vehicles : {size}")
+    print(f"Execution Time     : {execution_time:.6f} seconds")
+    print("-" * 60)
