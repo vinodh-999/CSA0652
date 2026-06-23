@@ -1,0 +1,64 @@
+import random
+import time
+
+
+# Hybrid Pivot Selection
+def choose_pivot(arr, low, high):
+    if high - low < 10:
+        return random.randint(low, high)
+
+    sample = random.sample(range(low, high + 1), 3)
+
+    values = [(arr[i], i) for i in sample]
+    values.sort()
+
+    return values[1][1]  # median index
+
+
+def partition(arr, low, high):
+    pivot_index = choose_pivot(arr, low, high)
+
+    arr[pivot_index], arr[high] = arr[high], arr[pivot_index]
+
+    pivot = arr[high]
+    i = low - 1
+
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+
+    return i + 1
+
+
+def quick_sort(arr, low, high):
+    if low < high:
+        pi = partition(arr, low, high)
+
+        quick_sort(arr, low, pi - 1)
+        quick_sort(arr, pi + 1, high)
+
+
+def test_dataset(size):
+    data = [random.randint(1, 100000) for _ in range(size)]
+
+    start = time.perf_counter()
+
+    quick_sort(data, 0, len(data) - 1)
+
+    end = time.perf_counter()
+
+    return end - start
+
+
+sizes = [1000, 5000, 10000, 20000]
+
+print("Hybrid Quick Sort Performance")
+print("-" * 40)
+
+for size in sizes:
+    execution_time = test_dataset(size)
+    print(f"Dataset Size: {size}")
+    print(f"Execution Time: {execution_time:.6f} seconds\n")
