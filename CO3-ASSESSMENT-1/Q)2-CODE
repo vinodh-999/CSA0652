@@ -1,0 +1,44 @@
+import time
+
+# Binary Search Function
+def binary_search(arr, target):
+    left = 0
+    right = len(arr) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1
+
+
+# Dataset Sizes
+sizes = [1000, 10000, 100000, 1000000]
+
+print("Binary Search Performance in Database Indexing")
+print("-" * 50)
+
+for size in sizes:
+    # Simulating Indexed Database Records
+    data = list(range(size))
+
+    target = size - 1
+
+    start = time.perf_counter()
+
+    result = binary_search(data, target)
+
+    end = time.perf_counter()
+
+    execution_time = end - start
+
+    print(f"Dataset Size : {size}")
+    print(f"Target Found At Index : {result}")
+    print(f"Execution Time : {execution_time:.8f} seconds")
+    print("-" * 50)
