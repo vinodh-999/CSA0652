@@ -1,0 +1,46 @@
+import heapq
+
+frequencies = [5, 9, 12, 13, 16, 45]
+
+# Huffman Cost
+heap = frequencies[:]
+heapq.heapify(heap)
+
+huffman_cost = 0
+
+while len(heap) > 1:
+    left = heapq.heappop(heap)
+    right = heapq.heappop(heap)
+
+    merged = left + right
+    huffman_cost += merged
+
+    heapq.heappush(heap, merged)
+
+print("Huffman Total Cost:", huffman_cost)
+
+
+# Optimal BST Cost
+n = len(frequencies)
+
+cost = [[0] * n for _ in range(n)]
+
+for i in range(n):
+    cost[i][i] = frequencies[i]
+
+for length in range(2, n + 1):
+    for i in range(n - length + 1):
+        j = i + length - 1
+
+        cost[i][j] = float('inf')
+
+        total_freq = sum(frequencies[i:j+1])
+
+        for r in range(i, j + 1):
+            left = cost[i][r - 1] if r > i else 0
+            right = cost[r + 1][j] if r < j else 0
+
+            cost[i][j] = min(cost[i][j],
+                             left + right + total_freq)
+
+print("Optimal BST Cost:", cost[0][n - 1])
