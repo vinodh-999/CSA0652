@@ -1,0 +1,43 @@
+import time
+
+# Dynamic Programming for Revenue Maximization
+
+def dynamic_pricing(prices, demands):
+    n = len(prices)
+
+    dp = [0] * n
+    best_price = [0] * n
+
+    dp[0] = prices[0] * demands[0]
+    best_price[0] = prices[0]
+
+    for i in range(1, n):
+        revenue = prices[i] * demands[i]
+
+        if revenue > dp[i - 1]:
+            dp[i] = revenue
+            best_price[i] = prices[i]
+        else:
+            dp[i] = dp[i - 1]
+            best_price[i] = best_price[i - 1]
+
+    return dp[-1], best_price[-1]
+
+
+# Sample Pricing Data
+prices = [100, 120, 140, 160, 180, 200]
+demands = [80, 70, 65, 60, 50, 40]
+
+start = time.perf_counter()
+
+max_revenue, optimal_price = dynamic_pricing(prices, demands)
+
+end = time.perf_counter()
+
+print("Smart Retail Dynamic Pricing Optimization")
+print("-" * 50)
+print("Available Prices :", prices)
+print("Demand Levels    :", demands)
+print(f"Optimal Price    : ₹{optimal_price}")
+print(f"Maximum Revenue  : ₹{max_revenue}")
+print(f"Execution Time   : {(end-start):.6f} seconds")
