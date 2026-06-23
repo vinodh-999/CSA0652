@@ -1,0 +1,43 @@
+import random
+import time
+
+# Standard Matrix Multiplication
+def matrix_multiply(A, B):
+    n = len(A)
+
+    result = [[0 for _ in range(n)] for _ in range(n)]
+
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                result[i][j] += A[i][k] * B[k][j]
+
+    return result
+
+
+# Generate Random Matrix
+def generate_matrix(n):
+    return [[random.randint(1, 10) for _ in range(n)] for _ in range(n)]
+
+
+# Matrix Sizes
+sizes = [10, 20, 30, 40]
+
+print("Engineering Simulation System - Matrix Multiplication")
+print("-" * 60)
+
+for size in sizes:
+    A = generate_matrix(size)
+    B = generate_matrix(size)
+
+    start = time.perf_counter()
+
+    matrix_multiply(A, B)
+
+    end = time.perf_counter()
+
+    execution_time = end - start
+
+    print(f"Matrix Size : {size} x {size}")
+    print(f"Execution Time : {execution_time:.6f} seconds")
+    print("-" * 60)
