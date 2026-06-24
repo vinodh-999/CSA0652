@@ -1,0 +1,36 @@
+def greedy_set_cover(universe, subsets):
+    covered = set()
+    selected = []
+
+    while covered != universe:
+        best_subset = None
+        max_cover = 0
+
+        for subset in subsets:
+            uncovered = subset - covered
+
+            if len(uncovered) > max_cover:
+                max_cover = len(uncovered)
+                best_subset = subset
+
+        if best_subset is None:
+            break
+
+        selected.append(best_subset)
+        covered |= best_subset
+
+    return selected
+
+universe = {1, 2, 3, 4, 5}
+subsets = [
+    {1, 2, 3},
+    {2, 4},
+    {3, 4},
+    {4, 5}
+]
+
+result = greedy_set_cover(universe, subsets)
+
+print("Approximate Set Cover:")
+for s in result:
+    print(s)
