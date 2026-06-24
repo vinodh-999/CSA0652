@@ -1,0 +1,52 @@
+def set_cover_backtracking(universe, subsets):
+    best_solution = []
+
+    def backtrack(index, covered, selected):
+        nonlocal best_solution
+
+        # All elements covered
+        if covered == universe:
+            if not best_solution or len(selected) < len(best_solution):
+                best_solution = selected[:]
+            return
+
+        # No more subsets
+        if index == len(subsets):
+            return
+
+        # Pruning
+        if best_solution and len(selected) >= len(best_solution):
+            return
+
+        # Include current subset if it adds new elements
+        new_covered = covered | subsets[index]
+        if new_covered != covered:
+            selected.append(index)
+            backtrack(index + 1, new_covered, selected)
+            selected.pop()
+
+        # Exclude current subset
+        backtrack(index + 1, covered, selected)
+
+    backtrack(0, set(), [])
+    return best_solution
+
+
+# Example Input
+universe = {1, 2, 3, 4, 5}
+
+subsets = [
+    {1, 2, 3},  # S1
+    {2, 4},     # S2
+    {3, 4},     # S3
+    {4, 5},     # S4
+    {5}         # S5
+]
+
+solution = set_cover_backtracking(universe, subsets)
+
+print("Selected Subsets:")
+for i in solution:
+    print(f"S{i+1} =", subsets[i])
+
+print("Minimum subsets required =", len(solution))
