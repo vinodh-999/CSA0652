@@ -1,0 +1,47 @@
+# Constraint-Based Password Cracking using Backtracking
+
+allowed = ['A', 'B', 'C', '1', '2']
+length = 4
+
+def is_valid(password):
+    # First character must be 'A'
+    if len(password) >= 1 and password[0] != 'A':
+        return False
+
+    # No repeated characters
+    if len(password) != len(set(password)):
+        return False
+
+    # Last character must be '2' when password is complete
+    if len(password) == length and password[-1] != '2':
+        return False
+
+    return True
+
+def backtrack(password):
+    # Complete password generated
+    if len(password) == length:
+        # Must contain at least one digit
+        if any(ch.isdigit() for ch in password):
+            return password
+        return None
+
+    for ch in allowed:
+        new_password = password + ch
+
+        # Pruning invalid combinations
+        if is_valid(new_password):
+            result = backtrack(new_password)
+
+            if result:
+                return result
+
+    return None
+
+# Find password
+password = backtrack("")
+
+if password:
+    print("Valid Password Found:", password)
+else:
+    print("No valid password exists.")
